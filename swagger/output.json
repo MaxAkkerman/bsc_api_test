@@ -1,0 +1,397 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "bscAPI",
+    "description": "NodeJS routes for main Smart Chain operations",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/createWallet": {
+      "post": {
+        "description": "Create Wallet",
+        "parameters": [
+          {
+            "name": "password",
+            "description": "User password",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generated Wallet",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          }
+        }
+      }
+    },
+    "/api/importWallet": {
+      "post": {
+        "description": "Import Wallet",
+        "parameters": [
+          {
+            "name": "password",
+            "description": "User password and keystore",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "keystore": {
+                  "$ref": "#/definitions/Keystore"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Generated Wallet",
+            "schema": {
+              "$ref": "#/definitions/Wallet"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/bnbBalance": {
+      "post": {
+        "description": "Get native BNB balance",
+        "parameters": [
+          {
+            "name": "Address",
+            "description": "Wallet address",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wallet balance",
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/Balance"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/tokenBalance": {
+      "post": {
+        "description": "Get token balance",
+        "parameters": [
+          {
+            "name": "address",
+            "description": "Wallet address, Token Contract address",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "tokenAddress": {
+                  "type": "string",
+                  "example": "string"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token balance",
+            "type": "number",
+            "schema": {
+              "$ref": "#/definitions/tokenBalance"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/sendBnb": {
+      "post": {
+        "description": "Send native BNB",
+        "parameters": [
+          {
+            "name": "body",
+            "description": "Data",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "toAddress": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "amount": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "keystore": {
+                  "$ref": "#/definitions/Keystore"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction hash",
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/transactionHash"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/sendToken": {
+      "post": {
+        "description": "Send tokens",
+        "parameters": [
+          {
+            "name": "body",
+            "description": "User password",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "password": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "toAddress": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "tokenAddress": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "amount": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "keystore": {
+                  "$ref": "#/definitions/Keystore"
+                }
+              }
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction hash",
+            "type": "object",
+            "schema": {
+              "$ref": "#/definitions/transactionHash"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Wallet": {
+      "type": "object",
+      "properties": {
+        "account": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "example": "0x9D5FB1C7479FEb755D371c3b5AC26cF63591dAaf"
+            },
+            "privateKey": {
+              "type": "string",
+              "example": "0x3f8ea5c5944d1da2a95a92b7d30537a962a637a03c49498ec8e504b88b7ccc19"
+            }
+          }
+        },
+        "wallet": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "example": "0x9D5FB1C7479FEb755D371c3b5AC26cF63591dAaf"
+            },
+            "privateKey": {
+              "type": "string",
+              "example": "0x3f8ea5c5944d1da2a95a92b7d30537a962a637a03c49498ec8e504b88b7ccc19"
+            },
+            "index": {
+              "type": "number",
+              "example": 0
+            }
+          }
+        },
+        "keystore": {
+          "$ref": "#/definitions/Keystore"
+        }
+      }
+    },
+    "Keystore": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "number",
+          "example": 3
+        },
+        "id": {
+          "type": "string",
+          "example": "dcde72d3-90a8-4aa6-b409-027388e4243e"
+        },
+        "address": {
+          "type": "string",
+          "example": "9d5fb1c7479feb755d371c3b5ac26cf63591daaf"
+        },
+        "crypto": {
+          "type": "object",
+          "properties": {
+            "ciphertext": {
+              "type": "string",
+              "example": "860306fa50b31b2a263b1dc2127fc0071d76cdd71c875a097c7f5f36bd7efc88"
+            },
+            "cipherparams": {
+              "type": "object",
+              "properties": {
+                "iv": {
+                  "type": "string",
+                  "example": "7406bf01fd12807ab21b82f273bbbaa0"
+                }
+              }
+            },
+            "cipher": {
+              "type": "string",
+              "example": "aes-128-ctr"
+            },
+            "kdf": {
+              "type": "string",
+              "example": "scrypt"
+            },
+            "kdfparams": {
+              "type": "object",
+              "properties": {
+                "dklen": {
+                  "type": "number",
+                  "example": 32
+                },
+                "salt": {
+                  "type": "string",
+                  "example": "fadcdee77bf3f63ca177e2bed01ffca36e3d5f9e758f4bb0ca62144ad99724a8"
+                },
+                "n": {
+                  "type": "number",
+                  "example": 8192
+                },
+                "r": {
+                  "type": "number",
+                  "example": 8
+                },
+                "p": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            },
+            "mac": {
+              "type": "string",
+              "example": "3623f260aa9699423fc975d1239e5dec5ce3a00f0d70d3461fa387e0f39d5169"
+            }
+          }
+        }
+      }
+    },
+    "Balance": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "string",
+          "example": "number"
+        }
+      }
+    },
+    "tokenBalance": {
+      "type": "object",
+      "properties": {
+        "tokenBalance": {
+          "type": "string",
+          "example": "number"
+        }
+      }
+    },
+    "transactionHash": {
+      "type": "object",
+      "properties": {
+        "transactionHash": {
+          "type": "string",
+          "example": "number"
+        }
+      }
+    }
+  }
+}
